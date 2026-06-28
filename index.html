@@ -1,90 +1,171 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>For Basma ❤️</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOVE Window</title>
+    <style>
+        /* إعدادات الألوان والتصميم الأساسي */
+        :root {
+            --coral: #d97b73;
+            --red: #e23b4e;
+            --bg-dark: #120e16;
+            --window-bg: #1a1523;
+        }
 
-<style>
-body{
-margin:0;
-padding:0;
-background:black;
-overflow:hidden;
-display:flex;
-justify-content:center;
-align-items:center;
-height:100vh;
-font-family:Arial,sans-serif;
-}
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: var(--bg-dark);
+            font-family: sans-serif;
+            color: white;
+        }
 
-.container{
-position:relative;
-width:400px;
-height:400px;
-display:flex;
-justify-content:center;
-align-items:center;
-}
+        /* تصميم النافذة الرئيسية */
+        .window {
+            background-color: var(--window-bg);
+            border: 5px solid var(--coral);
+            border-radius: 12px;
+            width: 350px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
 
-.heart{
-position:absolute;
-font-size:16px;
-color:#ff80bf;
-animation:rotateHeart 12s linear infinite;
-}
+        /* شريط العنوان العلوي للنافذة */
+        .titlebar {
+            background-color: var(--coral);
+            margin: -20px -20px 20px -20px;
+            padding: 10px;
+            font-weight: bold;
+            font-size: 14px;
+            letter-spacing: 2px;
+        }
 
-.word{
-position:absolute;
-color:#ff80bf;
-text-shadow:0 0 10px #ff80bf;
-white-space:nowrap;
-}
+        .title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #fff;
+        }
 
-.name{
-position:absolute;
-font-size:40px;
-color:white;
-text-shadow:0 0 20px #ff80bf;
-z-index:100;
-}
+        /* منطقة الرسوم المتحركة (الكانفاس) */
+        canvas {
+            display: block;
+            margin: 0 auto 20px auto;
+            background-color: transparent;
+        }
 
-@keyframes rotateHeart{
-100%{
-transform:rotate(360deg);
-}
-}
-</style>
+        /* تصميم الأزرار */
+        .buttons-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            height: 50px;
+            position: relative;
+        }
 
+        button {
+            padding: 10px 25px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.1s ease;
+        }
+
+        #yesBtn {
+            background-color: var(--red);
+            color: white;
+        }
+
+        #yesBtn:hover {
+            transform: scale(1.1);
+        }
+
+        /* زر NO وتأثير الهروب */
+        #noBtn {
+            background-color: #555;
+            color: white;
+            position: relative;
+            transition: left 0.18s ease, top 0.18s ease;
+        }
+    </style>
 </head>
 <body>
 
-<div class="container">
-<div class="heart" id="heart"></div>
-<div class="name">Basma ❤️</div>
-</div>
+    <!-- الهيكل الرئيسي للنافذة (HTML) -->
+    <section class="window">
+        <header class="titlebar">
+            <span>LOVE</span>
+        </header>
+        
+        <h1 class="title">bsma ar9dii?</h1>
+        
+        <!-- مساحة مخصصة لرسم القطة أو الرسوم المتحركة -->
+        <canvas id="cat" width="150" height="150"></canvas>
+        
+        <div class="buttons-container">
+            <button id="yesBtn">YES</button>
+            <button id="noBtn">NO</button>
+        </div>
+    </section>
 
-<script>
+    <!-- البرمجة والتفاعل (JavaScript) -->
+    <script>
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+        const canvas = document.getElementById('cat');
+        const ctx = canvas.getContext('2d');
 
-const heart=document.getElementById("heart");
+        // رسم شكل تعبيري بسيط (قلب) داخل الكانفاس كبديل مؤقت للقطة
+        function drawHeart() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#e23b4e';
+            ctx.beginPath();
+            ctx.moveTo(75, 40);
+            ctx.bezierCurveTo(75, 37, 70, 25, 50, 25);
+            ctx.bezierCurveTo(20, 25, 20, 62.5, 20, 62.5);
+            ctx.bezierCurveTo(20, 80, 40, 102, 75, 120);
+            ctx.bezierCurveTo(110, 102, 130, 80, 130, 62.5);
+            ctx.bezierCurveTo(130, 62.5, 130, 25, 100, 25);
+            ctx.bezierCurveTo(85, 25, 75, 37, 75, 40);
+            ctx.fill();
+        }
+        drawHeart();
 
-for(let t=0;t<6.28;t+=0.15){
+        // وظيفة تجعل زر NO يهرب عند اقتراب الفأرة أو لمسه
+        function moveButton() {
+            // حساب أقصى مسافة مسموحة للتحرك داخل حاوي الأزرار لضمان بقائه مرئياً
+            const maxWidth = 100; 
+            const maxHeight = 40; 
 
-let x=16*Math.pow(Math.sin(t),3);
-let y=-(13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t));
+            // توليد إحداثيات عشوائية سالبة أو موجبة
+            const randomX = (Math.random() - 0.5) * maxWidth * 2;
+            const randomY = (Math.random() - 0.5) * maxHeight * 2;
 
-let text=document.createElement("div");
+            noBtn.style.left = `${randomX}px`;
+            noBtn.style.top = `${randomY}px`;
+        }
 
-text.className="word";
-text.innerText="I Love You";
+        // تفعيل الهروب عند تحريك الفأرة فوق الزر أو لمسه على الهواتف
+        noBtn.addEventListener('mouseenter', moveButton);
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            moveButton();
+        });
 
-text.style.left=(x*12+180)+"px";
-text.style.top=(y*12+180)+"px";
-
-heart.appendChild(text);
-}
-
-</script>
+        // عند الضغط على زر YES
+        yesBtn.addEventListener('click', () => {
+            alert('I love you too! ❤️');
+        });
+    </script>
 
 </body>
 </html>
