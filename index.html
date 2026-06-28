@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>For Basma ❤️</title>
+
+<style>
+body{
+margin:0;
+padding:0;
+background:black;
+overflow:hidden;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+font-family:Arial,sans-serif;
+}
+
+.container{
+position:relative;
+width:400px;
+height:400px;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.heart{
+position:absolute;
+font-size:16px;
+color:#ff80bf;
+animation:rotateHeart 12s linear infinite;
+}
+
+.word{
+position:absolute;
+color:#ff80bf;
+text-shadow:0 0 10px #ff80bf;
+white-space:nowrap;
+}
+
+.name{
+position:absolute;
+font-size:40px;
+color:white;
+text-shadow:0 0 20px #ff80bf;
+z-index:100;
+}
+
+@keyframes rotateHeart{
+100%{
+transform:rotate(360deg);
+}
+}
+</style>
+
+</head>
+<body>
+
+<div class="container">
+<div class="heart" id="heart"></div>
+<div class="name">Basma ❤️</div>
+</div>
+
+<script>
+
+const heart=document.getElementById("heart");
+
+for(let t=0;t<6.28;t+=0.15){
+
+let x=16*Math.pow(Math.sin(t),3);
+let y=-(13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t));
+
+let text=document.createElement("div");
+
+text.className="word";
+text.innerText="I Love You";
+
+text.style.left=(x*12+180)+"px";
+text.style.top=(y*12+180)+"px";
+
+heart.appendChild(text);
+}
+
+</script>
+
+</body>
+</html>
